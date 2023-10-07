@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Utilizator;
+use App\Models\UserModel;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -14,7 +14,7 @@ class UserController extends Controller
     // Get all the users from the database
     public function index()
     {
-        $users = Utilizator::all();
+        $users = UserModel::all();
 
         if ($users->count() > 0) {
             return response()->json([
@@ -47,7 +47,7 @@ class UserController extends Controller
         } else {
             $imageName = Str::random(32) . "." . $request->image->getClientOriginalExtension();
 
-            $user = Utilizator::create([
+            $user = UserModel::create([
                 'name' => $request->name,
                 'email' => $request->email,
                 'image' => $imageName,
@@ -73,7 +73,7 @@ class UserController extends Controller
     // Search for a user based on his "id"
     public function show($id)
     {
-        $user = Utilizator::find($id);
+        $user = UserModel::find($id);
 
         if ($user) {
             return response()->json([
@@ -104,7 +104,7 @@ class UserController extends Controller
                 'errors' => $validator->messages()
             ], 422);
         } else {
-            $user = Utilizator::find($id);
+            $user = UserModel::find($id);
 
             if ($user) {
                 $user->name = $request->name;
@@ -141,7 +141,7 @@ class UserController extends Controller
     // Delete a user based on his "id"
     public function destroy($id)
     {
-        $user = Utilizator::find($id);
+        $user = UserModel::find($id);
 
         if ($user) {
             $storage = Storage::disk('public');
