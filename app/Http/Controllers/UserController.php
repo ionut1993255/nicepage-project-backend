@@ -36,7 +36,7 @@ class UserController extends Controller
             'name' => 'required|string|max:258',
             'email' => 'required|email|max:258',
             'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'consent' => 'required|boolean'
+            'consent' => 'boolean'
         ]);
 
         if ($validator->fails()) {
@@ -44,6 +44,11 @@ class UserController extends Controller
                 'status' => 422,
                 'errors' => $validator->messages()
             ], 422);
+        } else if (!$request->consent && $request->hasFile('image')) {
+            return response()->json([
+                'status' => 400,
+                'errors' => "test"
+            ], 400);
         } else {
             $imageName = Str::random(32) . "." . $request->image->getClientOriginalExtension();
 
