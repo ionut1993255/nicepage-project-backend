@@ -12,9 +12,9 @@ use Illuminate\Support\Facades\Validator;
 class UserController extends Controller
 {
     // Get all the users from the database
-    public function index()
+    public function index(Request $request)
     {
-        $users = UserModel::all();
+        $users = UserModel::paginate($request->get("perPage"));
 
         if ($users->count() > 0) {
             return response()->json([
